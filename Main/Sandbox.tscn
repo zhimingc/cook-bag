@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://HexGridManager/HexGridManager.gd" type="Script" id=1]
+[ext_resource path="res://HexGridManager/HexGrid.tscn" type="PackedScene" id=2]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="HexGridManager" type="Node2D" parent="."]
+script = ExtResource( 1 )
+hexgrid_obj = ExtResource( 2 )
+
+[node name="HexGrid" parent="." instance=ExtResource( 2 )]
