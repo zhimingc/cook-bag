@@ -5,8 +5,12 @@
 
 [node name="Node2D" type="Node2D"]
 
-[node name="HexGridManager" type="Node2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+
+[node name="HexGridMan" type="Node2D" parent="."]
 script = ExtResource( 1 )
 hexgrid_obj = ExtResource( 2 )
-
-[node name="HexGrid" parent="." instance=ExtResource( 2 )]
+grid_dims = Vector2( 8, 8 )
+grid_scale = 0.5
+grid_offset = Vector2( 100, 120 )
