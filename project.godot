@@ -8,11 +8,41 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "HexCell",
+"language": "GDScript",
+"path": "res://HexGridManager/HexCell.gd"
+}, {
+"base": "Node2D",
+"class": "HexGridManager",
+"language": "GDScript",
+"path": "res://HexGridManager/HexGridManager.gd"
+}, {
+"base": "Object",
+"class": "Utils",
+"language": "GDScript",
+"path": "res://Utils/Utils.gd"
+} ]
+_global_script_class_icons={
+"HexCell": "",
+"HexGridManager": "",
+"Utils": ""
+}
+
 [application]
 
 config/name="forage-bag"
 run/main_scene="res://Main/Sandbox.tscn"
 config/icon="res://icon.png"
+
+[input]
+
+lmb={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
 
 [physics]
 
