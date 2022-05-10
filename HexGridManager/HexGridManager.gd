@@ -9,6 +9,7 @@ export var grid_scale	: float
 export var grid_offset	: Vector2
 
 var grid : Utils.HexGrid
+var hovered_hex = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -22,6 +23,15 @@ func _ready():
 	grid.draw_grid(self, origin)
 	for obj in grid.gridObjs:
 		obj.connect("mouse_entered_hex", self, "on_mouse_entered")
+		obj.connect("mouse_exit_hex", self, "on_mouse_exit")
 		
+func _process(delta):
+	if hovered_hex.size() > 0:
+		if ItemMan.just_released:
+			ItemMan.get_last_held().snap_position(hovered_hex[0].global_position)
+
 func on_mouse_entered(hex):
-	pass
+	hovered_hex.append(hex)
+	
+func on_mouse_exit(hex):
+	hovered_hex.erase(hex)

@@ -56,5 +56,6 @@ class HexGrid:
 				else:
 					newGrid.position.y -= quart_y_step
 				newGrid.scale = Vector2.ONE * grid_scale
+				newGrid.coordinates = Vector2(x, y)
 				parent.add_child(newGrid)
 				gridObjs.append(newGrid)

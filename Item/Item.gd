@@ -1,21 +1,24 @@
 extends Node2D
 
+class_name Item
+
 enum INTERACT_STATE {
 	idle,
 	hover,
-	drag
+	drag,
+	snap
 }
 
-var hexgrid : HexGridManager
-
+var hexgrid
 var shape : Utils.HexGrid
 var state = INTERACT_STATE.idle
 var mouse_offset
+var snap_offset
 var selected_hex = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	hexgrid = get_tree().get_root().get_node("HexGridMan")
+	hexgrid = get_tree().get_root().get_node("Main/HexGridMan")
 	shape = Utils.HexGrid.new()
 	shape.grid_pixel = Vector2(95, 110)
 	shape.grid_scale = 0.5
@@ -23,13 +26,12 @@ func _ready():
 func _process(delta):
 	match state:
 		INTERACT_STATE.hover:
-			if Input.is_action_just_pressed("lmb"):
+			if Input.is_action_just_pressed("lmb") and ItemMan.is_currently_holding() == false:
 				set_state(INTERACT_STATE.drag)
+				ItemMan.set_held_item(self)
 			pass
 		INTERACT_STATE.drag:
 			position = get_global_mouse_position() + mouse_offset
-			if Input.is_action_just_released("lmb"):
-				set_state(INTERACT_STATE.idle)
 			pass
 
 func set_state(new_state):
@@ -57,3 +59,10 @@ func mouse_exit(hex : HexCell):
 	selected_hex.erase(hex)
 	if selected_hex.size() == 0 and state == INTERACT_STATE.hover:
 		set_state(INTERACT_STATE.idle)
+
+func release_item():
+	set_state(INTERACT_STATE.idle)
+
+func snap_position(snap_pos):
+	set_state(INTERACT_STATE.idle)
+	position = position + (snap_pos - selected_hex[0].global_position)
