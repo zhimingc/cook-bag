@@ -10,7 +10,8 @@ enum INTERACT_STATE {
 }
 
 var hexgrid
-var shape : Utils.HexGrid
+# var shape : Utils.HexGrid
+var shape : Utils.HexGrid_Doubled
 var state = INTERACT_STATE.idle
 var mouse_offset
 var snap_offset
@@ -19,7 +20,7 @@ var selected_hex = []
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	hexgrid = get_tree().get_root().get_node("Main/HexGridMan")
-	shape = Utils.HexGrid.new()
+	shape = Utils.HexGrid_Doubled.new()
 	shape.grid_pixel = Vector2(95, 110)
 	shape.grid_scale = 0.5
 	
@@ -59,6 +60,11 @@ func mouse_exit(hex : HexCell):
 	selected_hex.erase(hex)
 	if selected_hex.size() == 0 and state == INTERACT_STATE.hover:
 		set_state(INTERACT_STATE.idle)
+
+func get_selected_hex():
+	if selected_hex.size() > 0:
+		return selected_hex[0]
+	return null
 
 func release_item():
 	set_state(INTERACT_STATE.idle)

@@ -27,6 +27,49 @@ class Array2D:
 		if index < array.size():
 			array[index] = elem
 
+class HexGrid_Doubled:
+	var grid_array : Array2D
+	var gridObjs = []
+	var grid_pixel
+	var grid_scale
+	
+	func _init():
+		grid_array = Array2D.new()
+		
+	func init_shape(array, dims):
+		grid_array.init_array(dims * Vector2(1, 2))
+		for y in dims[1]:
+			for x in dims[0]:
+				grid_array.array[x+((y+1)*x)] = array[x+y*x]
+		
+	func init_grid(grid_dims, _grid_pixel = 32, _grid_scale = 1):
+		grid_array.init_array(grid_dims * Vector2(1, 2))
+		grid_pixel = _grid_pixel
+		grid_scale = _grid_scale
+		
+	func draw_grid(parent, origin):
+		var grid_obj = preload("res://HexGridManager/HexCell.tscn")
+		var final_scale = grid_pixel * grid_scale
+		var quart_y_step = final_scale.y / 4
+		for y in grid_array.dims[1]:
+			for x in grid_array.dims[0]:
+				if (y + x) % 2 != 0:
+					continue
+				if grid_array.get_elem(x, y) == 0:
+					continue
+				var newGrid = grid_obj.instance() as Node2D
+				newGrid.position = origin + Vector2(x * final_scale[0], y * final_scale[1] / 2.0)
+				newGrid.scale = Vector2.ONE * grid_scale
+				newGrid.set_coords(Vector2(x, y))
+				parent.add_child(newGrid)
+				gridObjs.append(newGrid)
+	
+	func get_hex(x, y):
+		var index = x + (y * grid_array.dims[0])
+		if index < gridObjs.size():
+			return gridObjs[index]
+		return null
+
 class HexGrid:
 	var grid_array : Array2D
 	var gridObjs = []
@@ -56,6 +99,19 @@ class HexGrid:
 				else:
 					newGrid.position.y -= quart_y_step
 				newGrid.scale = Vector2.ONE * grid_scale
-				newGrid.coordinates = Vector2(x, y)
+				newGrid.set_coords(Vector2(x, y))
 				parent.add_child(newGrid)
 				gridObjs.append(newGrid)
+
+	func parse_hex_traverse(hex : HexCell, vec):
+		# if hex.coordinates.x is even 
+			# -x needs to +1y
+		# if hex.coordinates.x is odd
+			# +x needs to -1y
+		pass
+
+	func get_hex(x, y):
+		var index = x + (y * grid_array.dims[0])
+		if index < gridObjs.size():
+			return gridObjs[index]
+		return null
