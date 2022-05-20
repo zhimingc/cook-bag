@@ -12,6 +12,7 @@
 current = true
 
 [node name="HexGridMan" type="Node2D" parent="."]
+position = Vector2( 0, 2 )
 script = ExtResource( 1 )
 hexgrid_obj = ExtResource( 2 )
 grid_dims = Vector2( 6, 4 )
@@ -21,8 +22,6 @@ grid_scale = 0.5
 [node name="Banana" parent="." instance=ExtResource( 3 )]
 position = Vector2( 196, 54 )
 
-[node name="Watermelon" parent="." instance=ExtResource( 4 )]
-position = Vector2( -305, 76 )
-
 [node name="Mushroom" parent="." instance=ExtResource( 5 )]
-position = Vector2( 14, 95 )
+
+[node name="Watermelon" parent="." instance=ExtResource( 4 )]

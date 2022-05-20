@@ -5,9 +5,8 @@ func _ready():
 	._ready()
 	var array = [0, 1,
 				 1, 0,
-				 1, 0,
-				 0, 1]
-	var dims = Vector2(2, 4)
+				 1, 1]
+	var dims = Vector2(2, 3)
 	shape.init_shape(array, dims)
 	gen_grid()
 

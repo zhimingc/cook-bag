@@ -48,9 +48,9 @@ func get_hovered_hex():
 func on_mouse_entered(hex):
 	item_hover_exit()	
 	hovered_hex.append(hex)
+	hex.set_interact_state(HexCell.INTERACT_STATE.hover)
 	if ItemMan.is_currently_holding():
 		check_valid_item_drop()
-	hex.set_interact_state(HexCell.INTERACT_STATE.hover)
 	
 func on_mouse_exit(hex):
 	hovered_hex.erase(hex)

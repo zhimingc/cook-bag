@@ -9,12 +9,12 @@ class Array2D:
 	func _init():
 		pass
 	
-	func init_array(array_dims):
+	func init_array(array_dims, fill = true):
 		array.clear()
 		dims = array_dims
 		for y in dims[1]:
 			for x in dims[0]:
-				array.append(1)
+				array.append(1 if fill else 0)
 	
 	func get_elem(x, y):
 		var index = x + (y * dims[0])
@@ -37,10 +37,13 @@ class HexGrid_Doubled:
 		grid_array = Array2D.new()
 		
 	func init_shape(array, dims):
-		grid_array.init_array(dims * Vector2(1, 2))
+		grid_array.init_array(dims * Vector2(1, 2), false)
+		# map 2d array preview to doubled coordinates
 		for y in dims[1]:
 			for x in dims[0]:
-				grid_array.array[x+((y+1)*x)] = array[x+y*x]
+				var dy = y * 2 if x % 2 == 0 else y * 2 + 1
+				var index = x+(dy*grid_array.dims[0])
+				grid_array.array[index] = array[x+y*dims[0]]
 		
 	func init_grid(grid_dims, _grid_pixel = 32, _grid_scale = 1):
 		grid_array.init_array(grid_dims * Vector2(1, 2))
@@ -66,8 +69,9 @@ class HexGrid_Doubled:
 	
 	func get_hex(x, y):
 		var index = x + (y * grid_array.dims[0])
-		if index < gridObjs.size():
-			return gridObjs[index]
+		for grid in gridObjs:
+			if grid.coordinates == Vector2(x,y):
+				return grid
 		return null
 
 class HexGrid:
