@@ -12,6 +12,7 @@ var grid : Utils.HexGrid
 var grid_doubled : Utils.HexGrid_Doubled
 var hovered_hex = []
 var itemover_hex = []
+var valid_hover_drop = false
 
 func grid():
 	return grid_doubled
@@ -38,7 +39,11 @@ func _ready():
 func _process(delta):
 	if hovered_hex.size() > 0:
 		if ItemMan.just_released:
-			ItemMan.get_last_held().snap_position(hovered_hex[0].global_position)
+			if valid_hover_drop:
+				ItemMan.get_last_held().snap_position(hovered_hex[0].global_position)
+				item_hover_stored()
+			else:
+				ItemMan.get_last_held().return_to_last_position()
 
 func get_hovered_hex():
 	if hovered_hex.size() > 0:
@@ -50,7 +55,7 @@ func on_mouse_entered(hex):
 	hovered_hex.append(hex)
 	hex.set_interact_state(HexCell.INTERACT_STATE.hover)
 	if ItemMan.is_currently_holding():
-		check_valid_item_drop()
+		valid_hover_drop = check_valid_item_drop()
 	
 func on_mouse_exit(hex):
 	hovered_hex.erase(hex)
@@ -63,20 +68,17 @@ func check_valid_item_drop():
 	var cur_hex = get_hovered_hex()
 	var item = ItemMan.get_held_item() as Item
 	var item_selected_hex = item.get_selected_hex()
-	if cur_hex == null or item_selected_hex == null:
+	var hexes_under_item = get_hexes_under_item()
+	if hexes_under_item.size() <= 0:
 		return false
 	# iterate for all cells in item
-	for cell in item.shape.gridObjs:
-		# travel from original inventory cell based on the current cell's coords
-		var next_coords = cur_hex.coordinates + (cell.coordinates - item_selected_hex.coordinates)
-		# check if in range
-		if next_coords.x < 0 or next_coords.x >= grid().grid_array.dims[0] or next_coords.y < 0 or next_coords.y >= grid().grid_array.dims[1]:
+	for hex in hexes_under_item:
+		if hex != null and hex.cell_state == HexCell.CELL_STATE.empty:
+			hex.set_interact_state(HexCell.INTERACT_STATE.select)
+			itemover_hex.append(hex)
+		else:
 			valid_drop = false
-		# check if cell is free
-		var next_hex = grid().get_hex(next_coords.x, next_coords.y)
-		if next_hex != null and next_hex.cell_state == HexCell.CELL_STATE.empty:
-			next_hex.set_interact_state(HexCell.INTERACT_STATE.select)
-			itemover_hex.append(next_hex)
+			break
 			
 	if valid_drop == false:
 		for itemover in itemover_hex:
@@ -84,6 +86,39 @@ func check_valid_item_drop():
 			
 	return valid_drop
 
+func get_hexes_under_item():
+	var hexes_under_item = []
+	var cur_hex = get_hovered_hex()
+	var item = ItemMan.get_held_item() as Item
+	var item_selected_hex = item.get_selected_hex()
+	if cur_hex == null or item_selected_hex == null:
+		return []
+	# iterate for all cells in item
+	for cell in item.shape.gridObjs:
+		# travel from original inventory cell based on the current cell's coords
+		var next_coords = cur_hex.coordinates + (cell.coordinates - item_selected_hex.coordinates)
+		# check if in range
+		if next_coords.x < 0 or next_coords.x >= grid().grid_array.dims[0] or next_coords.y < 0 or next_coords.y >= grid().grid_array.dims[1]:
+			return []
+		hexes_under_item.append(grid().get_hex(next_coords.x, next_coords.y))
+		
+	return hexes_under_item
+
+func item_hover_stored():
+	for itemover in itemover_hex:
+		itemover.set_cell_state(HexCell.CELL_STATE.occupied)
+	itemover_hex = []
+	ItemMan.get_last_held().stored = true
+	
+func item_removed_from_bag():
+	var hexes_under_item = get_hexes_under_item()
+	if hexes_under_item.size() <= 0:
+		return false
+	# iterate for all cells in item
+	for hex in hexes_under_item:
+		hex.set_cell_state(HexCell.CELL_STATE.empty)
+		hex.set_interact_state(HexCell.INTERACT_STATE.idle)		
+	
 func item_hover_exit():
 	for item in itemover_hex:
 		item.set_interact_state(HexCell.INTERACT_STATE.idle)

@@ -54,6 +54,9 @@ class HexGrid_Doubled:
 		var grid_obj = preload("res://HexGridManager/HexCell.tscn")
 		var final_scale = grid_pixel * grid_scale
 		var quart_y_step = final_scale.y / 4
+		if origin == null:
+			origin = Vector2(-grid_array.dims[0], -grid_array.dims[1]) * final_scale / 4.0
+		
 		for y in grid_array.dims[1]:
 			for x in grid_array.dims[0]:
 				if (y + x) % 2 != 0:

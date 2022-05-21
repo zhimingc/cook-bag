@@ -23,5 +23,7 @@ grid_scale = 0.5
 position = Vector2( 196, 54 )
 
 [node name="Mushroom" parent="." instance=ExtResource( 5 )]
+position = Vector2( -246, 110 )
 
 [node name="Watermelon" parent="." instance=ExtResource( 4 )]
+position = Vector2( -54, 69 )

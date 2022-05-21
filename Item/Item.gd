@@ -6,7 +6,7 @@ enum INTERACT_STATE {
 	idle,
 	hover,
 	drag,
-	snap
+	stored
 }
 
 var hexgrid
@@ -16,6 +16,8 @@ var state = INTERACT_STATE.idle
 var mouse_offset
 var snap_offset
 var selected_hex = []
+var last_position = Vector2()
+var stored = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -30,22 +32,31 @@ func _process(delta):
 			if Input.is_action_just_pressed("lmb") and ItemMan.is_currently_holding() == false:
 				set_state(INTERACT_STATE.drag)
 				ItemMan.set_held_item(self)
-			pass
+				if stored:
+					hexgrid.item_removed_from_bag()
+					stored = false
+			pass			
 		INTERACT_STATE.drag:
 			position = get_global_mouse_position() + mouse_offset
 			pass
 
 func set_state(new_state):
+	# exit state
+	# match state:
+
 	state = new_state
+	
+	# enter state
 	match state:
 		INTERACT_STATE.idle:
 			if selected_hex.size() > 0:
 				set_state(INTERACT_STATE.hover)
 		INTERACT_STATE.drag:
 			mouse_offset = position - get_global_mouse_position()
+			last_position = position
 	
 func gen_grid():
-	shape.draw_grid(self, Vector2(0,0))
+	shape.draw_grid(self, null)
 	for obj in shape.gridObjs:
 		obj.connect("mouse_entered_hex", self, "mouse_enter")
 		obj.connect("mouse_exit_hex", self, "mouse_exit")
@@ -72,3 +83,6 @@ func release_item():
 func snap_position(snap_pos):
 	set_state(INTERACT_STATE.idle)
 	position = position + (snap_pos - selected_hex[0].global_position)
+	
+func return_to_last_position():
+	position = last_position
