@@ -45,6 +45,7 @@ config/icon="res://icon.png"
 [autoload]
 
 ItemMan="*res://Item/ItemManager.gd"
+Ingame="*res://Main/InGame/InGameManager.gd"
 
 [input]
 

@@ -25,6 +25,10 @@ func _ready():
 	shape = Utils.HexGrid_Doubled.new()
 	shape.grid_pixel = Vector2(95, 110)
 	shape.grid_scale = 0.5
+	init_debug()
+	
+func init_debug():
+	$DebugCanvas/DebugName.visible = false
 	
 func _process(delta):
 	match state:
