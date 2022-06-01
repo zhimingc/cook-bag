@@ -46,6 +46,7 @@ config/icon="res://icon.png"
 
 ItemMan="*res://Item/ItemManager.gd"
 Ingame="*res://Main/InGame/InGameManager.gd"
+EncMan="*res://Encounters/EncounterManager.gd"
 
 [input]
 

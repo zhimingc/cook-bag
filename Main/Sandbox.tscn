@@ -1,16 +1,13 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://HexGridManager/HexGridManager.gd" type="Script" id=1]
 [ext_resource path="res://HexGridManager/HexCell.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Item/Banana/Banana.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Item/Watermelon/Watermelon.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Item/Mushroom/Mushroom.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Fonts/Scribbles-Regular.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://Main/InGame/InGame_Debug.gd" type="Script" id=7]
 [ext_resource path="res://Main/InGame/InGameInit.gd" type="Script" id=8]
 
 [sub_resource type="DynamicFont" id=1]
-size = 56
+size = 36
 font_data = ExtResource( 6 )
 
 [node name="Main" type="Node2D"]
@@ -26,33 +23,24 @@ grid_dims = Vector2( 6, 4 )
 grid_pixel_size = Vector2( 95, 110 )
 grid_scale = 0.5
 
-[node name="Banana" parent="." instance=ExtResource( 3 )]
-position = Vector2( 388, -160 )
-
-[node name="Mushroom" parent="." instance=ExtResource( 5 )]
-position = Vector2( -393, -38 )
-
-[node name="Watermelon" parent="." instance=ExtResource( 4 )]
-position = Vector2( -420, -190 )
-
 [node name="InGame_Debug" type="Control" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
 script = ExtResource( 7 )
 
 [node name="TravelButton" type="Button" parent="InGame_Debug"]
-margin_left = 210.0
+margin_left = 300.0
 margin_top = 20.0
-margin_right = 390.0
+margin_right = 480.0
 margin_bottom = 276.0
 custom_fonts/font = SubResource( 1 )
 text = "Travel!"
 
 [node name="IdleButton" type="Button" parent="InGame_Debug"]
 margin_left = -130.0
-margin_top = 200.0
+margin_top = 230.0
 margin_right = 126.0
-margin_bottom = 269.0
+margin_bottom = 276.0
 custom_fonts/font = SubResource( 1 )
 text = "Idle"
 

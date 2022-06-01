@@ -7,13 +7,12 @@ enum INGAME_STATE {
 	pause
 }
 
-export var encounter_interval = Vector2()
-
 var state = INGAME_STATE.idle
-var encounter_timer = 0.0
+var next_encounter : EncMan.Encounter
 
 func init():
-	encounter_timer = rand_range(encounter_interval.x, encounter_interval.y)
+	randomize()
+	next_encounter = EncMan.get_new_encounter()
 
 func set_state(new_state):
 	# on exit state
@@ -24,6 +23,7 @@ func set_state(new_state):
 			set_next_encounter()
 			pass
 		INGAME_STATE.encounter:
+			EncMan.add_child(next_encounter.encounter_obj)
 			pass
 
 func update_state(delta):
@@ -31,8 +31,8 @@ func update_state(delta):
 		INGAME_STATE.idle:
 			pass
 		INGAME_STATE.travel:
-			encounter_timer -= delta
-			if encounter_timer <= 0.0:
+			next_encounter.encounter_timer -= delta
+			if next_encounter.encounter_timer <= 0.0:
 				set_state(INGAME_STATE.encounter)
 			pass
 		INGAME_STATE.encounter:
@@ -41,5 +41,5 @@ func update_state(delta):
 func _process(delta):
 	update_state(delta)
 
-func set_next_encounter(_time = 0.0):
-	encounter_timer = rand_range(encounter_interval.x, encounter_interval.y)	
+func set_next_encounter():
+	next_encounter = EncMan.get_new_encounter()
