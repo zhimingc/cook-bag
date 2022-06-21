@@ -12,6 +12,7 @@ var forageMap = {}
 var forageOdds = []
 var forageItemPool = []
 var slotList = []
+var itemList = []
 
 # flags
 var debugSlots = false
@@ -56,9 +57,17 @@ func spawn_items(num):
 	for i in num:
 		var new_item = get_random_item_from_pool()
 		new_item.global_position = slots[i].global_position
+		itemList.append(new_item)
 		add_child(new_item)
 
 func get_random_item_from_pool():
 	var index = rand_range(0, forageItemPool.size())
 	var item_obj = forageMap[forageItemPool[index].item_name]
 	return item_obj.instance()
+	
+func clear_encounter():
+	for item in itemList:
+		if item.stored == true:
+			remove_child(item)
+			Ingame.add_child(item)
+	.clear_encounter()

@@ -8,11 +8,11 @@ enum INGAME_STATE {
 }
 
 var state = INGAME_STATE.idle
-var next_encounter : EncMan.Encounter
+var current_encounter : EncMan.Encounter
 
 func init():
 	randomize()
-	next_encounter = EncMan.get_new_encounter()
+	current_encounter = EncMan.get_new_encounter()
 
 func set_state(new_state):
 	# on exit state
@@ -20,10 +20,12 @@ func set_state(new_state):
 	# on enter state
 	match state:
 		INGAME_STATE.travel:
+			# remove current encounter
+			current_encounter.encounter_obj.clear_encounter()
 			set_next_encounter()
 			pass
 		INGAME_STATE.encounter:
-			EncMan.add_child(next_encounter.encounter_obj)
+			EncMan.add_child(current_encounter.encounter_obj)
 			pass
 
 func update_state(delta):
@@ -31,8 +33,8 @@ func update_state(delta):
 		INGAME_STATE.idle:
 			pass
 		INGAME_STATE.travel:
-			next_encounter.encounter_timer -= delta
-			if next_encounter.encounter_timer <= 0.0:
+			current_encounter.encounter_timer -= delta
+			if current_encounter.encounter_timer <= 0.0:
 				set_state(INGAME_STATE.encounter)
 			pass
 		INGAME_STATE.encounter:
@@ -42,4 +44,4 @@ func _process(delta):
 	update_state(delta)
 
 func set_next_encounter():
-	next_encounter = EncMan.get_new_encounter()
+	current_encounter = EncMan.get_new_encounter()

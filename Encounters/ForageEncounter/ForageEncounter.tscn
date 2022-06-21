@@ -8,24 +8,25 @@
 script = ExtResource( 2 )
 
 [node name="Slot1" parent="." index="0" instance=ExtResource( 3 )]
+position = Vector2( -300, 0 )
 
 [node name="Slot2" parent="." index="1" instance=ExtResource( 3 )]
-position = Vector2( -53, 50 )
+position = Vector2( -100, 0 )
 
 [node name="Slot3" parent="." index="2" instance=ExtResource( 3 )]
-position = Vector2( 47, 50 )
+position = Vector2( 100, 0 )
 
 [node name="Slot4" parent="." index="3" instance=ExtResource( 3 )]
-position = Vector2( 160, 50 )
+position = Vector2( 300, 0 )
 
 [node name="Slot5" parent="." index="4" instance=ExtResource( 3 )]
-position = Vector2( -150, 150 )
+position = Vector2( -300, 200 )
 
 [node name="Slot6" parent="." index="5" instance=ExtResource( 3 )]
-position = Vector2( -53, 150 )
+position = Vector2( -100, 200 )
 
 [node name="Slot7" parent="." index="6" instance=ExtResource( 3 )]
-position = Vector2( 47, 150 )
+position = Vector2( 100, 200 )
 
 [node name="Slot8" parent="." index="7" instance=ExtResource( 3 )]
-position = Vector2( 160, 150 )
+position = Vector2( 300, 200 )

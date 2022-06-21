@@ -16,7 +16,7 @@ font_data = ExtResource( 6 )
 current = true
 
 [node name="HexGridMan" type="Node2D" parent="."]
-position = Vector2( 0, 2 )
+position = Vector2( 0, -100 )
 script = ExtResource( 1 )
 hexgrid_obj = ExtResource( 2 )
 grid_dims = Vector2( 6, 4 )
@@ -29,25 +29,24 @@ margin_bottom = 40.0
 script = ExtResource( 7 )
 
 [node name="TravelButton" type="Button" parent="InGame_Debug"]
-margin_left = 300.0
-margin_top = 20.0
-margin_right = 480.0
-margin_bottom = 276.0
+margin_left = 400.0
+margin_right = 580.0
+margin_bottom = 256.0
 custom_fonts/font = SubResource( 1 )
 text = "Travel!"
 
 [node name="IdleButton" type="Button" parent="InGame_Debug"]
 margin_left = -130.0
-margin_top = 230.0
+margin_top = 340.0
 margin_right = 126.0
-margin_bottom = 276.0
+margin_bottom = 386.0
 custom_fonts/font = SubResource( 1 )
 text = "Idle"
 
 [node name="InGameState" type="Label" parent="InGame_Debug"]
-margin_left = -490.0
+margin_left = -690.0
 margin_top = 20.0
-margin_right = -402.0
+margin_right = -602.0
 margin_bottom = 34.0
 text = "InGame: IDLE"
 

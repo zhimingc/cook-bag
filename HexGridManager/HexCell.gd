@@ -24,7 +24,12 @@ var area : Area2D
 var cell_state = CELL_STATE.empty
 var interact_state = INTERACT_STATE.idle
 
+# debug flags
+var show_debug = false
+
 func _ready():
+	$Debug_Canvas.visible = show_debug
+	
 	area = $Area2D
 	area.connect("mouse_entered", self, "on_mouse_entered")
 	area.connect("mouse_exited", self, "on_mouse_exit")

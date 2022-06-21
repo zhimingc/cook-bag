@@ -48,6 +48,11 @@ ItemMan="*res://Item/ItemManager.gd"
 Ingame="*res://Main/InGame/InGameManager.gd"
 EncMan="*res://Encounters/EncounterManager.gd"
 
+[display]
+
+window/size/width=1440
+window/size/height=810
+
 [input]
 
 lmb={
